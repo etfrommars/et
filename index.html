@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数码优选 - 数码科技产品商城</title>
+<style>
+/* ========== Reset & Base ========== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;background:#f5f5f7;color:#1d1d1f;line-height:1.6}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{display:block;max-width:100%}
+.container{max-width:1280px;margin:0 auto;padding:0 24px}
+
+/* ========== Header ========== */
+.site-header{position:sticky;top:0;z-index:1000;background:#fff;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.header-top{background:#1d1d1f;color:#aaa;font-size:12px;padding:6px 0;text-align:center}
+.header-top span{color:#e8c07d}
+.header-main{display:flex;align-items:center;justify-content:space-between;height:64px;gap:24px}
+.logo{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:700;color:#1d1d1f;white-space:nowrap}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+.search-box{flex:1;max-width:560px;position:relative}
+.search-box input{width:100%;height:40px;border:2px solid #e8e8ed;border-radius:20px;padding:0 48px 0 20px;font-size:14px;outline:none;transition:border-color .2s}
+.search-box input:focus{border-color:#667eea}
+.search-box .search-btn{position:absolute;right:4px;top:4px;width:32px;height:32px;border:none;border-radius:50%;background:#667eea;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.header-actions{display:flex;align-items:center;gap:20px}
+.header-actions a{display:flex;align-items:center;gap:6px;font-size:14px;color:#555;cursor:pointer;transition:color .2s}
+.header-actions a:hover{color:#667eea}
+.cart-icon{position:relative}
+.cart-badge{position:absolute;top:-8px;right:-8px;background:#ff4757;color:#fff;font-size:11px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600}
+
+/* ========== Main Nav ========== */
+.main-nav{background:#fff;border-top:1px solid #f0f0f3}
+.nav-list{display:flex;gap:32px;height:48px;align-items:center}
+.nav-list li a{font-size:15px;color:#333;font-weight:500;position:relative;padding:4px 0;transition:color .2s}
+.nav-list li a:hover{color:#667eea}
+.nav-list li a.active{color:#667eea}
+.nav-list li a.active::after{content:"";position:absolute;bottom:-6px;left:0;right:0;height:2px;background:#667eea;border-radius:2px}
+
+/* ========== Carousel ========== */
+.carousel{position:relative;margin-top:16px;border-radius:16px;overflow:hidden;height:420px}
+.carousel-track{display:flex;height:100%;transition:transform .6s ease}
+.carousel-slide{min-width:100%;height:100%;position:relative;display:flex;align-items:center;padding:0 80px}
+.carousel-slide .slide-content{position:relative;z-index:2;max-width:480px}
+.carousel-slide .slide-content h2{font-size:40px;font-weight:800;margin-bottom:12px;line-height:1.2}
+.carousel-slide .slide-content p{font-size:16px;margin-bottom:24px;opacity:.9}
+.carousel-slide .slide-content .btn{display:inline-block;padding:12px 32px;border-radius:24px;font-size:15px;font-weight:600;cursor:pointer;border:none;transition:transform .2s,box-shadow .2s}
+.carousel-slide .slide-content .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.slide-1{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.slide-1 .btn{background:#fff;color:#667eea}
+.slide-2{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff}
+.slide-2 .btn{background:#fff;color:#f5576c}
+.slide-3{background:linear-gradient(135deg,#4facfe,#00f2fe);color:#fff}
+.slide-3 .btn{background:#fff;color:#4facfe}
+.carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.8);border:none;cursor:pointer;font-size:18px;color:#333;display:flex;align-items:center;justify-content:center;z-index:3;transition:background .2s}
+.carousel-arrow:hover{background:#fff}
+.carousel-arrow.prev{left:20px}
+.carousel-arrow.next{right:20px}
+.carousel-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+.carousel-dots span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:background .2s}
+.carousel-dots span.active{background:#fff;width:28px;border-radius:5px}
+
+/* ========== Section Title ========== */
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:48px 0 24px}
+.section-title h3{font-size:26px;font-weight:700;color:#1d1d1f}
+.section-title h3 span{color:#667eea}
+.section-title .see-all{font-size:14px;color:#888;cursor:pointer;transition:color .2s}
+.section-title .see-all:hover{color:#667eea}
+
+/* ========== Categories ========== */
+.categories-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.category-card{background:#fff;border-radius:14px;padding:24px 16px;text-align:center;cursor:pointer;transition:transform .2s,box-shadow .2s;border:1px solid transparent}
+.category-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.08);border-color:#e8e8ed}
+.category-icon{width:56px;height:56px;border-radius:14px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.cat-1{background:#eef2ff}
+.cat-2{background:#fef3f2}
+.cat-3{background:#e8f7ed}
+.cat-4{background:#fff8e1}
+.cat-5{background:#f3e8ff}
+.cat-6{background:#e0f2fe}
+.category-card p{font-size:14px;font-weight:600;color:#333}
+
+/* ========== Promotion ========== */
+.promo-banner{margin-top:48px;border-radius:16px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.promo-item{padding:36px 32px;position:relative;cursor:pointer;transition:transform .2s}
+.promo-item:hover{transform:scale(1.02)}
+.promo-item .promo-tag{display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:12px;margin-bottom:12px}
+.promo-item h4{font-size:22px;font-weight:700;margin-bottom:8px}
+.promo-item p{font-size:14px;opacity:.85;margin-bottom:16px}
+.promo-item .countdown{font-size:13px;font-weight:600}
+.promo-1{background:linear-gradient(135deg,#ff9a44,#fc6076);color:#fff}
+.promo-1 .promo-tag{background:rgba(255,255,255,.25);color:#fff}
+.promo-2{background:linear-gradient(135deg,#13547a,#80d0c7);color:#fff}
+.promo-2 .promo-tag{background:rgba(255,255,255,.25);color:#fff}
+.promo-3{background:linear-gradient(135deg,#1e3c72,#2a5298);color:#fff}
+.promo-3 .promo-tag{background:rgba(255,255,255,.25);color:#fff}
+
+/* ========== Flash Sale ========== */
+.flash-sale{background:#fff;border-radius:16px;padding:32px;margin-top:48px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.flash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.flash-left{display:flex;align-items:center;gap:16px}
+.flash-title{font-size:28px;font-weight:800;color:#ff4757}
+.flash-timer{display:flex;align-items:center;gap:8px}
+.flash-timer span{display:inline-block;background:#1d1d1f;color:#fff;font-size:18px;font-weight:700;width:36px;height:36px;border-radius:8px;text-align:center;line-height:36px}
+.flash-timer .colon{color:#ff4757;font-size:18px;font-weight:700}
+.flash-products{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.flash-product{text-align:center;cursor:pointer;transition:transform .2s}
+.flash-product:hover{transform:translateY(-4px)}
+.flash-product img,.flash-product .img-placeholder{width:100%;aspect-ratio:1;border-radius:12px;margin-bottom:12px}
+.flash-product .img-placeholder{display:flex;align-items:center;justify-content:center;font-size:48px}
+.flash-product .name{font-size:13px;color:#555;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flash-product .price{font-size:18px;font-weight:700;color:#ff4757}
+.flash-product .original{font-size:13px;color:#bbb;text-decoration:line-through;margin-left:4px}
+
+/* ========== Hot Products ========== */
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.product-card{background:#fff;border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;border:1px solid #f0f0f3}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(0,0,0,.1)}
+.product-img{width:100%;aspect-ratio:1;background:#f8f8fa;display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;overflow:hidden}
+.product-badge{position:absolute;top:12px;left:12px;background:#ff4757;color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:12px}
+.product-badge.new{background:#667eea}
+.product-info{padding:16px}
+.product-name{font-size:15px;font-weight:600;color:#1d1d1f;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.product-desc{font-size:13px;color:#999;margin-bottom:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.product-bottom{display:flex;align-items:center;justify-content:space-between}
+.product-price{font-size:20px;font-weight:700;color:#ff4757}
+.product-price small{font-size:13px;font-weight:400}
+.product-rating{font-size:13px;color:#888}
+.product-rating .star{color:#ffc107}
+.product-actions{display:flex;gap:8px;margin-top:12px}
+.product-actions button{flex:1;padding:8px;border:1px solid #e8e8ed;border-radius:8px;background:#fff;font-size:13px;cursor:pointer;transition:all .2s}
+.product-actions button:hover{border-color:#667eea;color:#667eea}
+.product-actions .add-cart{background:#667eea;color:#fff;border-color:#667eea}
+.product-actions .add-cart:hover{background:#5a6fd8;color:#fff}
+
+/* ========== Newsletter ========== */
+.newsletter{margin-top:64px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:20px;padding:48px;text-align:center;color:#fff}
+.newsletter h3{font-size:28px;font-weight:700;margin-bottom:12px}
+.newsletter p{font-size:15px;opacity:.9;margin-bottom:24px}
+.newsletter-form{display:flex;gap:12px;max-width:480px;margin:0 auto}
+.newsletter-form input{flex:1;height:44px;border:none;border-radius:22px;padding:0 24px;font-size:14px;outline:none}
+.newsletter-form button{padding:0 28px;border:none;border-radius:22px;background:#fff;color:#667eea;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:transform .2s}
+.newsletter-form button:hover{transform:scale(1.05)}
+
+/* ========== Footer ========== */
+.site-footer{background:#1d1d1f;color:#888;margin-top:64px;padding:48px 0 0}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;padding-bottom:32px;border-bottom:1px solid #333}
+.footer-brand .logo{color:#fff;margin-bottom:12px}
+.footer-brand p{font-size:13px;line-height:1.8}
+.footer-col h5{color:#fff;font-size:15px;margin-bottom:16px}
+.footer-col li{margin-bottom:10px}
+.footer-col li a{font-size:13px;color:#888;transition:color .2s}
+.footer-col li a:hover{color:#fff}
+.footer-bottom{text-align:center;padding:20px 0;font-size:13px}
+.footer-social{display:flex;gap:16px;margin-top:16px}
+.footer-social a{width:36px;height:36px;border-radius:50%;background:#333;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:background .2s}
+.footer-social a:hover{background:#667eea}
+
+/* ========== Responsive ========== */
+@media(max-width:1024px){
+.categories-grid{grid-template-columns:repeat(3,1fr)}
+.promo-banner{grid-template-columns:1fr}
+.products-grid{grid-template-columns:repeat(2,1fr)}
+.flash-products{grid-template-columns:repeat(3,1fr)}
+.footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+.header-main{flex-wrap:wrap;height:auto;padding:12px 0}
+.search-box{order:3;flex:1 1 100%;max-width:none}
+.nav-list{gap:16px;overflow-x:auto;white-space:nowrap}
+.carousel{height:260px}
+.carousel-slide{padding:0 24px}
+.carousel-slide .slide-content h2{font-size:26px}
+.categories-grid{grid-template-columns:repeat(2,1fr)}
+.promo-banner{grid-template-columns:1fr}
+.products-grid{grid-template-columns:1fr}
+.flash-products{grid-template-columns:repeat(2,1fr)}
+.footer-grid{grid-template-columns:1fr 1fr}
+.newsletter-form{flex-direction:column}
+}
+
+/* ========== Animation ========== */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeInUp .6s ease both}
+</style>
+</head>
+<body>
+
+<!-- ========== Header ========== -->
+<header class="site-header">
+<div class="header-top">
+<span>限时特惠</span> · 全场满 299 减 50，满 599 减 120，下单立享免邮 &nbsp;|&nbsp; <span>新用户注册即送 100 元优惠券</span>
+</div>
+<div class="container">
+<div class="header-main">
+<a href="#" class="logo">
+<span class="logo-icon">D</span>
+<span>数码优选</span>
+</a>
+<div class="search-box">
+<input type="text" placeholder="搜索 iPhone、耳机、笔记本...">
+<button class="search-btn">Q</button>
+</div>
+<div class="header-actions">
+<a>登录 / 注册</a>
+<a>我的订单</a>
+<a class="cart-icon">
+购物车
+<span class="cart-badge">3</span>
+</a>
+</div>
+</div>
+</div>
+<nav class="main-nav">
+<div class="container">
+<ul class="nav-list">
+<li><a href="#" class="active">首页</a></li>
+<li><a href="#categories">手机数码</a></li>
+<li><a href="#categories">电脑办公</a></li>
+<li><a href="#categories">智能穿戴</a></li>
+<li><a href="#categories">影音娱乐</a></li>
+<li><a href="#categories">配件周边</a></li>
+<li><a href="#promo">限时秒杀</a></li>
+<li><a href="#products">热卖榜单</a></li>
+</ul>
+</div>
+</nav>
+</header>
+
+<!-- ========== Main Content ========== -->
+<main class="container">
+
+<!-- Carousel -->
+<section class="carousel" id="carousel">
+<div class="carousel-track" id="carouselTrack">
+<div class="carousel-slide slide-1">
+<div class="slide-content">
+<h2>新品旗舰<br>抢先体验</h2>
+<p>最新款旗舰手机震撼上市，搭载全新一代芯片，影像系统全面升级。</p>
+<button class="btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">立即抢购</button>
+</div>
+</div>
+<div class="carousel-slide slide-2">
+<div class="slide-content">
+<h2>耳机狂欢节<br>低至 5 折</h2>
+<p>降噪耳机、蓝牙耳机全场大促，限时优惠不可错过，数量有限。</p>
+<button class="btn" onclick="document.getElementById('promo').scrollIntoView({behavior:'smooth'})">查看活动</button>
+</div>
+</div>
+<div class="carousel-slide slide-3">
+<div class="slide-content">
+<h2>智能穿戴<br>健康随行</h2>
+<p>智能手表、手环新品上架，24 小时心率监测、运动追踪一应俱全。</p>
+<button class="btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">立即选购</button>
+</div>
+</div>
+</div>
+<button class="carousel-arrow prev" onclick="moveCarousel(-1)">&#10094;</button>
+<button class="carousel-arrow next" onclick="moveCarousel(1)">&#10095;</button>
+<div class="carousel-dots" id="carouselDots">
+<span class="active" onclick="goToSlide(0)"></span>
+<span onclick="goToSlide(1)"></span>
+<span onclick="goToSlide(2)"></span>
+</div>
+</section>
+
+<!-- Categories -->
+<div class="section-title" id="categories">
+<h3>商品<span>分类</span></h3>
+<a class="see-all">全部分类 →</a>
+</div>
+<div class="categories-grid">
+<div class="category-card" onclick="filterCategory('手机')">
+<div class="category-icon cat-1">📱</div>
+<p>手机通讯</p>
+</div>
+<div class="category-card" onclick="filterCategory('电脑')">
+<div class="category-icon cat-2">💻</div>
+<p>电脑办公</p>
+</div>
+<div class="category-card" onclick="filterCategory('耳机')">
+<div class="category-icon cat-3">🎧</div>
+<p>耳机音频</p>
+</div>
+<div class="category-card" onclick="filterCategory('手表')">
+<div class="category-icon cat-4">⌚</div>
+<p>智能穿戴</p>
+</div>
+<div class="category-card" onclick="filterCategory('相机')">
+<div class="category-icon cat-5">📷</div>
+<p>摄影摄像</p>
+</div>
+<div class="category-card" onclick="filterCategory('配件')">
+<div class="category-icon cat-6">🔌</div>
+<p>配件周边</p>
+</div>
+</div>
+
+<!-- Promotion Banner -->
+<div class="promo-banner" id="promo">
+<div class="promo-item promo-1">
+<span class="promo-tag">限时秒杀</span>
+<h4>超级品牌日</h4>
+<p>精选大牌好物，低至 3 折起</p>
+<div class="countdown" id="countdown1">距结束 02:14:33</div>
+</div>
+<div class="promo-item promo-2">
+<span class="promo-tag">满减专区</span>
+<h4>满 299 减 50</h4>
+<p>跨店满减，上不封顶</p>
+<div class="countdown" id="countdown2">距结束 08:42:19</div>
+</div>
+<div class="promo-item promo-3">
+<span class="promo-tag">新人专享</span>
+<h4>注册送 100 元</h4>
+<p>新用户专属礼包，首单立减</p>
+<div class="countdown">永久有效</div>
+</div>
+</div>
+
+<!-- Flash Sale -->
+<div class="flash-sale">
+<div class="flash-header">
+<div class="flash-left">
+<div class="flash-title">⚡ 限时秒杀</div>
+<div class="flash-timer" id="flashTimer">
+<span id="t-hours">02</span>
+<span class="colon">:</span>
+<span id="t-minutes">14</span>
+<span class="colon">:</span>
+<span id="t-seconds">33</span>
+</div>
+</div>
+<a class="see-all">更多 →</a>
+</div>
+<div class="flash-products" id="flashProducts"></div>
+</div>
+
+<!-- Hot Products -->
+<div class="section-title" id="products">
+<h3>热门<span>商品</span></h3>
+<a class="see-all" id="filterLabel">全部商品</a>
+</div>
+<div class="products-grid" id="productsGrid"></div>
+
+<!-- Newsletter -->
+<div class="newsletter">
+<h3>订阅最新资讯</h3>
+<p>第一时间获取新品上架、限时优惠等独家信息</p>
+<form class="newsletter-form" onsubmit="event.preventDefault();alert('订阅成功！感谢关注。');">
+<input type="email" placeholder="请输入您的邮箱地址" required>
+<button type="submit">立即订阅</button>
+</form>
+</div>
+
+</main>
+
+<!-- ========== Footer ========== -->
+<footer class="site-footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<a href="#" class="logo">
+<span class="logo-icon">D</span>
+<span style="color:#fff">数码优选</span>
+</a>
+<p>数码优选 — 您身边的数码科技产品专家。<br>正品保障 · 极速配送 · 七天无理由退换<br>让科技好物触手可及。</p>
+<div class="footer-social">
+<a title="微信">💬</a>
+<a title="微博">📢</a>
+<a title="抖音">🎵</a>
+<a title="B站">📺</a>
+</div>
+</div>
+<div class="footer-col">
+<h5>购物指南</h5>
+<ul>
+<li><a>购物流程</a></li>
+<li><a>会员介绍</a></li>
+<li><a>常见问题</a></li>
+<li><a>售后政策</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h5>配送方式</h5>
+<ul>
+<li><a>上门自提</a></li>
+<li><a>极速配送</a></li>
+<li><a>配送费用</a></li>
+<li><a>配送范围</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h5>支付方式</h5>
+<ul>
+<li><a>在线支付</a></li>
+<li><a>分期付款</a></li>
+<li><a>货到付款</a></li>
+<li><a>公司转账</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h5>关于我们</h5>
+<ul>
+<li><a>关于数码优选</a></li>
+<li><a>联系我们</a></li>
+<li><a>招贤纳士</a></li>
+<li><a>合作洽谈</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2026 数码优选 DigitalChoice. All Rights Reserved. | 京ICP备2026000001号</p>
+</div>
+</div>
+</footer>
+
+<script>
+/* ========== Product Data ========== */
+const allProducts = [
+{ id:1, name:"旗舰智能手机 Pro Max", desc:"6.7英寸 OLED | 骁龙8 Gen3 | 5000万三摄", price:5999, original:6999, rating:4.9, badge:"热卖", icon:"📱", cat:"手机" },
+{ id:2, name:"无线降噪耳机 AirSound 3", desc:"主动降噪 | 蓝牙5.3 | 40小时续航", price:1299, original:1999, rating:4.8, badge:"新品", icon:"🎧", cat:"耳机" },
+{ id:3, name:"轻薄笔记本 AirBook 14", desc:"14英寸2.8K | M3芯片 | 18小时续航", price:7999, original:8999, rating:4.9, badge:"热卖", icon:"💻", cat:"电脑" },
+{ id:4, name:"智能运动手表 Watch S9", desc:"AMOLED屏 | 心率血氧 | 50米防水", price:2499, original:2999, rating:4.7, badge:"", icon:"⌚", cat:"手表" },
+{ id:5, name:"微单相机 Vision X50", desc:"5000万像素 | 4K60帧 | 五轴防抖", price:8499, original:9999, rating:4.8, badge:"新品", icon:"📷", cat:"相机" },
+{ id:6, name:"蓝牙音箱 BoomBox Mini", desc:"360°环绕音 | IP67防水 | 20小时续航", price:399, original:599, rating:4.6, badge:"", icon:"🔊", cat:"耳机" },
+{ id:7, name:"快充充电宝 20000mAh", desc:"65W双向快充 | PD协议 | 登机可用", price:199, original:299, rating:4.7, badge:"热卖", icon:"🔋", cat:"配件" },
+{ id:8, name:"机械键盘 KeyMaster 75", desc:"Gasket结构 | 三模连接 | 热插拔", price:459, original:599, rating:4.8, badge:"", icon:"⌨️", cat:"配件" },
+{ id:9, name:"游戏手柄 Controller X", desc:"霍尔摇杆 | 自定义按键 | 振动反馈", price:329, original:429, rating:4.5, badge:"", icon:"🎮", cat:"配件" },
+{ id:10, name:"平板电脑 TabPad Pro 11", desc:"11英寸120Hz | 8核芯片 | 触控笔", price:3699, original:4299, rating:4.7, badge:"热卖", icon:"📋", cat:"电脑" },
+{ id:11, name:"智能投影仪 HomeCinema", desc:"1080P高清 | 自动对焦 | 内置音响", price:1899, original:2599, rating:4.6, badge:"新品", icon:"📽️", cat:"相机" },
+{ id:12, name:"电动牙刷 SonicClean", desc:"声波清洁 | 5种模式 | 60天续航", price:149, original:249, rating:4.5, badge:"", icon:"🪥", cat:"配件" }
+];
+
+const flashSaleProducts = [
+{ name:"旗舰手机 Pro", icon:"📱", price:5499, original:6999 },
+{ name:"降噪耳机", icon:"🎧", price:999, original:1999 },
+{ name:"快充充电宝", icon:"🔋", price:149, original:299 },
+{ name:"机械键盘", icon:"⌨️", price:359, original:599 },
+{ name:"智能手表", icon:"⌚", price:1999, original:2999 }
+];
+
+/* ========== Render Products ========== */
+function renderProducts(list) {
+const grid = document.getElementById("productsGrid");
+grid.innerHTML = list.map((p, i) => `
+<div class="product-card fade-in" style="animation-delay:${i*0.05}s" onclick="addToCart('${p.name}')">
+<div class="product-img">
+${p.badge ? `<span class="product-badge ${p.badge==='新品'?'new':''}">${p.badge}</span>` : ''}
+${p.icon}
+</div>
+<div class="product-info">
+<div class="product-name">${p.name}</div>
+<div class="product-desc">${p.desc}</div>
+<div class="product-bottom">
+<div class="product-price">¥${p.price}<small> 起</small></div>
+<div class="product-rating"><span class="star">★</span> ${p.rating}</div>
+</div>
+<div class="product-actions">
+<button onclick="event.stopPropagation();addToCart('${p.name}')">加入购物车</button>
+<button class="add-cart" onclick="event.stopPropagation();buyNow('${p.name}')">立即购买</button>
+</div>
+</div>
+</div>
+`).join("");
+}
+
+function renderFlashProducts() {
+const grid = document.getElementById("flashProducts");
+const colors = ["#eef2ff","#fef3f2","#e8f7ed","#fff8e1","#f3e8ff"];
+grid.innerHTML = flashSaleProducts.map((p, i) => `
+<div class="flash-product" onclick="addToCart('${p.name}')">
+<div class="img-placeholder" style="background:${colors[i]}">${p.icon}</div>
+<div class="name">${p.name}</div>
+<div class="price">¥${p.price}<span class="original">¥${p.original}</span></div>
+</div>
+`).join("");
+}
+
+/* ========== Category Filter ========== */
+function filterCategory(cat) {
+const filtered = allProducts.filter(p => p.cat === cat);
+document.getElementById("filterLabel").textContent = cat + " · 共 " + filtered.length + " 件";
+renderProducts(filtered);
+document.getElementById("products").scrollIntoView({behavior:"smooth"});
+}
+
+/* ========== Cart ========== */
+let cartCount = 3;
+function addToCart(name) {
+cartCount++;
+document.querySelector(".cart-badge").textContent = cartCount;
+showToast("「" + name + "」已加入购物车");
+}
+function buyNow(name) {
+showToast("正在跳转结算页：" + name);
+}
+
+/* ========== Toast ========== */
+function showToast(msg) {
+const toast = document.createElement("div");
+toast.textContent = msg;
+toast.style.cssText = "position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#1d1d1f;color:#fff;padding:12px 28px;border-radius:24px;font-size:14px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2);animation:fadeInUp .3s ease";
+document.body.appendChild(toast);
+setTimeout(() => { toast.style.opacity = "0"; toast.style.transition = "opacity .3s"; }, 2000);
+setTimeout(() => toast.remove(), 2400);
+}
+
+/* ========== Carousel ========== */
+let currentSlide = 0;
+const totalSlides = 3;
+function updateCarousel() {
+document.getElementById("carouselTrack").style.transform = `translateX(-${currentSlide * 100}%)`;
+document.querySelectorAll("#carouselDots span").forEach((d, i) => {
+d.className = i === currentSlide ? "active" : "";
+});
+}
+function moveCarousel(dir) {
+currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+updateCarousel();
+}
+function goToSlide(idx) {
+currentSlide = idx;
+updateCarousel();
+}
+let carouselTimer = setInterval(() => moveCarousel(1), 5000);
+
+document.getElementById("carousel").addEventListener("mouseenter", () => clearInterval(carouselTimer));
+document.getElementById("carousel").addEventListener("mouseleave", () => {
+carouselTimer = setInterval(() => moveCarousel(1), 5000);
+});
+
+/* ========== Flash Sale Countdown ========== */
+let flashSeconds = 2 * 3600 + 14 * 60 + 33;
+function updateFlashTimer() {
+flashSeconds = flashSeconds > 0 ? flashSeconds - 1 : 0;
+const h = String(Math.floor(flashSeconds / 3600)).padStart(2, "0");
+const m = String(Math.floor((flashSeconds % 3600) / 60)).padStart(2, "0");
+const s = String(flashSeconds % 60).padStart(2, "0");
+const timerEl = document.getElementById("flashTimer");
+if (timerEl) {
+document.getElementById("t-hours").textContent = h;
+document.getElementById("t-minutes").textContent = m;
+document.getElementById("t-seconds").textContent = s;
+}
+/* update promo countdowns */
+const cd1 = document.getElementById("countdown1");
+const cd2 = document.getElementById("countdown2");
+if (cd1) cd1.textContent = "距结束 " + h + ":" + m + ":" + s;
+if (cd2) {
+let s2 = flashSeconds + 6 * 3600 + 28 * 60;
+const h2 = String(Math.floor(s2 / 3600) % 24).padStart(2, "0");
+const m2 = String(Math.floor((s2 % 3600) / 60)).padStart(2, "0");
+const sc2 = String(s2 % 60).padStart(2, "0");
+cd2.textContent = "距结束 " + h2 + ":" + m2 + ":" + sc2;
+}
+}
+setInterval(updateFlashTimer, 1000);
+
+/* ========== Init ========== */
+renderProducts(allProducts);
+renderFlashProducts();
+</script>
+</body>
+</html>
